@@ -563,19 +563,24 @@
     });
   })();
 
-  // Add to Calendar: builds a Google Calendar link + a downloadable .ics
-  // (Apple Calendar, Outlook, and most others open .ics files directly)
+  // Add to Calendar: Google Calendar link + a REAL hosted .ics file per
+  // language (wedding-en.ics / wedding-es.ics, uploaded alongside index.html).
+  // A real hosted file is what iPhone reliably recognizes for "Add to
+  // Calendar" — a data: link is what we tried first, but Safari (and
+  // especially the in-app browser inside Messages) often ignores those.
   (function () {
     var CAL = {
       en: {
         title: "Daniela & Edwin's Wedding",
         desc: 'Formal invitation with details to follow.',
-        location: 'La Grange, Chicago'
+        location: 'La Grange, Chicago',
+        ics: 'wedding-en.ics'
       },
       es: {
         title: 'Boda de Daniela y Edwin',
         desc: 'La invitación formal con los detalles llegará pronto.',
-        location: 'La Grange, Chicago'
+        location: 'La Grange, Chicago',
+        ics: 'wedding-es.ics'
       }
     };
     var START = '20271010', END = '20271011'; // all-day; END is exclusive per spec
@@ -594,24 +599,7 @@
         + '&dates=' + START + '/' + END
         + '&details=' + encodeURIComponent(c.desc)
         + '&location=' + encodeURIComponent(c.location);
-
-      var ics = [
-        'BEGIN:VCALENDAR',
-        'VERSION:2.0',
-        'PRODID:-//Daniela and Edwin Wedding//EN',
-        'CALSCALE:GREGORIAN',
-        'BEGIN:VEVENT',
-        'UID:danielayedwin-savethedate-20271010@danielayedwin.github.io',
-        'DTSTAMP:20260830T000000Z',
-        'DTSTART;VALUE=DATE:' + START,
-        'DTEND;VALUE=DATE:' + END,
-        'SUMMARY:' + c.title,
-        'DESCRIPTION:' + c.desc,
-        'LOCATION:' + c.location,
-        'END:VEVENT',
-        'END:VCALENDAR'
-      ].join('\r\n');
-      aLink.href = 'data:text/calendar;charset=utf-8,' + encodeURIComponent(ics);
+      aLink.href = c.ics; // real file next to index.html on the same site
     }
 
     btn.addEventListener('click', function (e) {
