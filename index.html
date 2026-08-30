@@ -330,6 +330,48 @@
     border-radius: 999px;
     margin-top: 26px;
   }
+  /* ---------- add to calendar ---------- */
+  .cal-wrap {
+    position: relative;
+    text-align: center;
+    margin-top: 46px;
+  }
+  button.btn {
+    appearance: none;
+    -webkit-appearance: none;
+    border: none;
+    cursor: pointer;
+    font-family: 'Jost', 'Helvetica Neue', Arial, sans-serif;
+    margin-top: 0;
+  }
+  .cal-menu {
+    position: absolute;
+    left: 50%;
+    top: calc(100% + 10px);
+    transform: translateX(-50%);
+    z-index: 5;
+    min-width: 210px;
+    background: var(--linen);
+    border: 1px solid rgba(78,59,50,.18);
+    border-radius: 14px;
+    padding: 6px;
+    box-shadow: 0 16px 34px rgba(78,59,50,.2);
+    display: none;
+  }
+  .cal-menu.open { display: block; }
+  .cal-menu a {
+    display: block;
+    text-decoration: none;
+    color: var(--ink);
+    font-family: 'Jost', 'Helvetica Neue', Arial, sans-serif;
+    font-size: 13px;
+    font-weight: 500;
+    letter-spacing: .05em;
+    padding: 11px 14px;
+    border-radius: 9px;
+  }
+  .cal-menu a:active { background: rgba(183,121,124,.15); }
+
   .btn-outline {
     display: inline-block;
     text-decoration: none;
@@ -432,6 +474,14 @@
           </div>
         </div>
 
+        <div class="cal-wrap">
+          <button type="button" class="btn" id="calBtn" data-i18n="calAdd">Add to Calendar</button>
+          <div class="cal-menu" id="calMenu">
+            <a href="#" id="calGoogleLink" target="_blank" rel="noopener" data-i18n="calGoogle">Google Calendar</a>
+            <a href="#" id="calAppleLink" data-i18n="calApple">Apple / Outlook</a>
+          </div>
+        </div>
+
         <div class="details">
           <div class="details-title" data-i18n="details">details</div>
           <div class="detail-row">
@@ -473,6 +523,7 @@
         littleLabel: 'Little Ones',
         littleText: "While we love your little ones, we've decided to make our celebration adults only. We hope this gives you the chance to relax and enjoy the night!",
         rsvpBtn: 'RSVP', regBtn: 'Registry',
+        calAdd: 'Add to Calendar', calGoogle: 'Google Calendar', calApple: 'Apple / Outlook',
         contactTitle: 'Contact Details', contactSub: 'questions? reach out to us'
       },
       es: {
@@ -484,6 +535,7 @@
         littleLabel: 'Chiquillos',
         littleText: 'Aunque amamos a sus peque\u00f1os, hemos decidido que nuestra celebraci\u00f3n sea solo para adultos. \u00a1Esperamos que esto les d\u00e9 la oportunidad de relajarse y disfrutar de la noche!',
         rsvpBtn: 'Confirmar', regBtn: 'Mesa de Regalos',
+        calAdd: 'Agregar al Calendario', calGoogle: 'Google Calendar', calApple: 'Apple / Outlook',
         contactTitle: 'Contacto', contactSub: '\u00bfpreguntas? escr\u00edbenos'
       }
     };
@@ -509,6 +561,66 @@
       var next = (e.clientX < r.left + r.width / 2) ? 'en' : 'es';
       if (next !== lang) setLang(next);
     });
+  })();
+
+  // Add to Calendar: builds a Google Calendar link + a downloadable .ics
+  // (Apple Calendar, Outlook, and most others open .ics files directly)
+  (function () {
+    var CAL = {
+      en: {
+        title: "Daniela & Edwin's Wedding",
+        desc: 'Formal invitation with details to follow.',
+        location: 'La Grange, Chicago'
+      },
+      es: {
+        title: 'Boda de Daniela y Edwin',
+        desc: 'La invitación formal con los detalles llegará pronto.',
+        location: 'La Grange, Chicago'
+      }
+    };
+    var START = '20271010', END = '20271011'; // all-day; END is exclusive per spec
+
+    var btn = document.getElementById('calBtn');
+    var menu = document.getElementById('calMenu');
+    var gLink = document.getElementById('calGoogleLink');
+    var aLink = document.getElementById('calAppleLink');
+    if (!btn) return;
+
+    function buildLinks() {
+      var lang = (document.documentElement.lang === 'es') ? 'es' : 'en';
+      var c = CAL[lang];
+      gLink.href = 'https://calendar.google.com/calendar/render?action=TEMPLATE'
+        + '&text=' + encodeURIComponent(c.title)
+        + '&dates=' + START + '/' + END
+        + '&details=' + encodeURIComponent(c.desc)
+        + '&location=' + encodeURIComponent(c.location);
+
+      var ics = [
+        'BEGIN:VCALENDAR',
+        'VERSION:2.0',
+        'PRODID:-//Daniela and Edwin Wedding//EN',
+        'CALSCALE:GREGORIAN',
+        'BEGIN:VEVENT',
+        'UID:danielayedwin-savethedate-20271010@danielayedwin.github.io',
+        'DTSTAMP:20260830T000000Z',
+        'DTSTART;VALUE=DATE:' + START,
+        'DTEND;VALUE=DATE:' + END,
+        'SUMMARY:' + c.title,
+        'DESCRIPTION:' + c.desc,
+        'LOCATION:' + c.location,
+        'END:VEVENT',
+        'END:VCALENDAR'
+      ].join('\r\n');
+      aLink.href = 'data:text/calendar;charset=utf-8,' + encodeURIComponent(ics);
+    }
+
+    btn.addEventListener('click', function (e) {
+      e.stopPropagation();
+      buildLinks(); // rebuild each time in case the language changed since last open
+      menu.classList.toggle('open');
+    });
+    menu.addEventListener('click', function (e) { e.stopPropagation(); });
+    document.addEventListener('click', function () { menu.classList.remove('open'); });
   })();
 
   // Shrink the phone frame so it always fits fully on a laptop screen (no page scroll)
