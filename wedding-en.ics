@@ -1,0 +1,14 @@
+BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:-//Daniela and Edwin Wedding//EN
+CALSCALE:GREGORIAN
+BEGIN:VEVENT
+UID:danielayedwin-savethedate-wedding-en@danielayedwin.github.io
+DTSTAMP:20260830T000000Z
+DTSTART;VALUE=DATE:20271010
+DTEND;VALUE=DATE:20271011
+SUMMARY:Daniela & Edwin's Wedding
+DESCRIPTION:Formal invitation with details to follow.
+LOCATION:La Grange, Chicago
+END:VEVENT
+END:VCALENDAR
