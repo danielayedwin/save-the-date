@@ -347,6 +347,12 @@
     margin-top: 14px;
   }
   .btn-col { display: flex; flex-direction: column; align-items: center; }
+  /* small underline on the RSVP / Registry buttons to signal they're links */
+  .btn-col .btn, .btn-col .btn-outline {
+    text-decoration: underline;
+    text-decoration-thickness: 1.5px;
+    text-underline-offset: 5px;
+  }
 
   /* ---------- contact ---------- */
   .contact {
@@ -445,7 +451,7 @@
           </div>
           <div class="detail-row">
             <div class="detail-label" data-i18n="plusLabel">Plus Ones</div>
-            <div class="detail-text" data-i18n="plusText">Good news: when you tap the RSVP link, your whole party will already be listed under your name, since you're the head of the party. If no other names pop up, that just means you don't have any plus ones.</div>
+            <div class="detail-text" data-i18n="plusText">When you tap the RSVP link, enter your full name and your whole party will appear under it. Please RSVP only for the names shown. We have saved a seat for each person listed.</div>
           </div>
           <div class="detail-row">
             <div class="detail-label" data-i18n="littleLabel">Little Ones</div>
@@ -481,7 +487,7 @@
         rsvpText: "Kindly RSVP on or before December 10, 2026. This helps us finalize plans and ensures you'll receive your formal invitation with all the details.",
         rsvpText2: "The RSVP link will close on December 10th and cannot be filled out afterward. If we haven't heard from you by then, we'll assume you're unable to join us.",
         plusLabel: 'Plus Ones',
-        plusText: "Good news: when you tap the RSVP link, your whole party will already be listed under your name, since you're the head of the party. If no other names pop up, that just means you don't have any plus ones.",
+        plusText: "When you tap the RSVP link, enter your full name and your whole party will appear under it. Please RSVP only for the names shown. We have saved a seat for each person listed.",
         littleLabel: 'Little Ones',
         littleText: "While we love your little ones, we've decided to keep our celebration to guests 16 and older. We hope this gives you the chance to relax and enjoy the night!",
         rsvpBtn: 'RSVP', regBtn: 'Registry',
@@ -495,7 +501,7 @@
         rsvpText: 'Por favor confirma tu asistencia a m\u00e1s tardar el 10 de diciembre de 2026. As\u00ed podremos finalizar los planes y asegurarnos de que recibas tu invitaci\u00f3n formal con todos los detalles.',
         rsvpText2: 'El enlace de confirmaci\u00f3n se cerrar\u00e1 el 10 de diciembre y no se podr\u00e1 completar despu\u00e9s. Si no hemos recibido tu respuesta para entonces, entenderemos que no podr\u00e1s acompa\u00f1arnos.',
         plusLabel: 'Acompa\u00f1antes',
-        plusText: '\u00a1Buenas noticias! Al abrir el enlace de confirmaci\u00f3n, todo tu grupo aparecer\u00e1 bajo tu nombre, ya que t\u00fa eres quien encabeza el grupo. Si no aparece ning\u00fan otro nombre, significa que no tienes acompa\u00f1antes.',
+        plusText: 'Al abrir el enlace de confirmaci\u00f3n, escribe tu nombre completo y todo tu grupo aparecer\u00e1 debajo. Por favor confirma \u00fanicamente por los nombres que aparezcan. Hemos reservado un lugar para cada persona en la lista.',
         littleLabel: 'Peque\u00f1os',
         littleText: 'Aunque amamos a sus peque\u00f1os, hemos decidido que nuestra celebraci\u00f3n sea solo para invitados de 16 a\u00f1os en adelante. \u00a1Esperamos que esto les d\u00e9 la oportunidad de relajarse y disfrutar de la noche!',
         rsvpBtn: 'Confirmar', regBtn: 'Mesa de Regalos',
